@@ -8,7 +8,7 @@ public class Location {
 	private String description;
 	private String label;
 	private ArrayList<Item> items = new ArrayList<Item>();
-	private NonPlayerCharacter npc = new NonPlayerCharacter();
+	private NonPlayerCharacter npc;
 	
 	public Location () { }
 	
