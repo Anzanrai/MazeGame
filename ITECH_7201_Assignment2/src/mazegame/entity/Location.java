@@ -5,15 +5,22 @@ import java.util.HashMap;
 
 public class Location {
 	private HashMap exits;
+	private HashMap characters;
+	private Inventory items;
+	private ExitCollection exitCollection;
 	private String description;
 	private String label;
-	private ArrayList<Item> items = new ArrayList<Item>();
-	private NonPlayerCharacter npc;
+//	private ArrayList<Item> items = new ArrayList<Item>();
+//	private NonPlayerCharacter npc;
 	
-	public Location () { }
+	public Location () {
+		exitCollection = new ExitCollection();
+		items = new Inventory();
+	}
 	
 	public Location (String description, String label)
 	{
+		this();
 		this.setDescription(description);
 		this.setLabel(label);
 		exits = new HashMap();
@@ -27,20 +34,44 @@ public class Location {
 		return true;
 	}
 
+	public Inventory getInventory(){
+		return items;
+	}
+
+	public ExitCollection getExitCollection (){
+		return exitCollection;
+	}
+
+	public Exit getExit(String exitLabel){
+		return (Exit) exits.get(exitLabel);
+	}
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	public String getLabel() {
 		return label;
 	}
-
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
+	public String availableExits() {
+		StringBuilder returnMsg = new StringBuilder();
+		for (Object label: this.exits.keySet()) {
+			returnMsg.append("[" + label.toString() + "] ");
+		}
+		return returnMsg.toString();
+	}
+
+	public boolean containsExit(String exitLabel) {
+		return exits.containsKey(exitLabel);
+	}
+
+	public String toString() {
+		return "**********\n" + this.label + "\n**********\n"
+				+ "Exits found :: " + availableExits() + "\n**********\n"
+				+ this.description + "\n**********\n";
+	}
 }

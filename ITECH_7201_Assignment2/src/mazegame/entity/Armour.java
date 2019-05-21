@@ -7,8 +7,12 @@ public class Armour extends Item {
         this.bonus = bonus;
     }
 
-    public Armour(int value, int weight, String description, int bonus) {
-        super(value, weight, description);
+    public Armour(String label, int value, int weight, String description){
+        super(label, value, weight, description);
+    }
+
+    public Armour(String label, int value, int weight, String description, int bonus) {
+        super(label, value, weight, description);
         this.bonus = bonus;
     }
 

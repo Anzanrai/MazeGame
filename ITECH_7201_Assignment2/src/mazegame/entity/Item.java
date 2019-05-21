@@ -1,6 +1,7 @@
 package mazegame.entity;
 
 public class Item {
+    private String label;
     private int value;
     private int weight;
     private String description;
@@ -8,10 +9,19 @@ public class Item {
     public Item() {
     }
 
-    public Item(int value, int weight, String description) {
+    public Item(String label, int value, int weight, String description) {
+        this.label = label;
         this.value = value;
         this.weight = weight;
         this.description = description;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public void setValue(int value) {

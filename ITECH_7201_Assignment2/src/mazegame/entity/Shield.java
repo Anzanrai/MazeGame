@@ -7,8 +7,8 @@ public class Shield extends Item {
         this.bonus = bonus;
     }
 
-    public Shield(int value, int weight, String description, int bonus) {
-        super(value, weight, description);
+    public Shield(String label, int value, int weight, String description, int bonus) {
+        super(label, value, weight, description);
         this.bonus = bonus;
     }
 
