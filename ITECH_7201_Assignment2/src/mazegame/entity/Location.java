@@ -45,18 +45,23 @@ public class Location {
 	public Exit getExit(String exitLabel){
 		return (Exit) exits.get(exitLabel);
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public String getLabel() {
 		return label;
 	}
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
 	public String availableExits() {
 		StringBuilder returnMsg = new StringBuilder();
 		for (Object label: this.exits.keySet()) {

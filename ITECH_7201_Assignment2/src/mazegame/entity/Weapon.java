@@ -1,22 +1,22 @@
 package mazegame.entity;
 
 public class Weapon extends Item {
-    private int damage;
+    private String damage;
 
-    public Weapon(int damage) {
+    public Weapon(String damage) {
         this.damage = damage;
     }
 
-    public Weapon(String label, int value, int weight, String description, int damage) {
+    public Weapon(String label, int value, int weight, String description, String damage) {
         super(label, value, weight, description);
         this.damage = damage;
     }
 
-    public int getDamage() {
+    public String getDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(String damage) {
         this.damage = damage;
     }
 }

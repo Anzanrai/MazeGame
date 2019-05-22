@@ -16,8 +16,8 @@ public class MovementState extends CommandState {
 
     public CommandState update(Player thePlayer)
     {
-//        if (thePlayer.getCurrentLocation() instanceof Blacksmith)
-//            return new CommerceState();
+        if (thePlayer.getCurrentLocation() instanceof Blacksmith)
+            return new CommerceState();
         return this;
     }
 }
