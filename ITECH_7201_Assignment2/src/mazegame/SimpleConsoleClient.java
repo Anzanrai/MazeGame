@@ -18,7 +18,6 @@ public class SimpleConsoleClient implements IMazeClient {
 	public void playerMessage (String message)
 	{
 		System.out.print(message);
-		
 	}
 	
 	public String getCommand()

@@ -1,6 +1,5 @@
 package mazegame.control;
 
-import mazegame.HardCodedData;
 import mazegame.SimpleConsoleClient;
 
 public class MazeGame {
