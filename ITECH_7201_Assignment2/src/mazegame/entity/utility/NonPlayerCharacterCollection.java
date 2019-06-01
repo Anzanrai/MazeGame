@@ -23,4 +23,8 @@ public class NonPlayerCharacterCollection extends HashMap<String, NonPlayerChara
         
         return returnMsg.toString();
 	}
+
+	public void addToCollection(String characterName, NonPlayerCharacter character){
+	    this.put(characterName, character);
+    }
 }

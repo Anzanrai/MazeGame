@@ -19,4 +19,8 @@ public class Shield extends Item {
     public void setBonus(int bonus) {
         this.bonus = bonus;
     }
+
+    public String toString(){
+        return String.format("%-25s\t%-10d\t%-10d\t%-10d",this.getLabel(), this.getValue(), this.getWeight(), this.getBonus());
+    }
 }

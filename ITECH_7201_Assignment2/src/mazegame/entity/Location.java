@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public class Location {
 	private HashMap exits;
-	private HashMap characters;
+//	private HashMap characters;
 	private Inventory items;
 	private ExitCollection exitCollection;
 	private String description;
 	private String label;
 //	private ArrayList<Item> items = new ArrayList<Item>();
-//	private NonPlayerCharacter npc;
+	private NonPlayerCharacter npc;
 	
 	public Location () {
 		exitCollection = new ExitCollection();
@@ -24,6 +24,15 @@ public class Location {
 		this.setDescription(description);
 		this.setLabel(label);
 		exits = new HashMap();
+	}
+
+	public Location (String description, String label, NonPlayerCharacter npc){
+		exitCollection = new ExitCollection();
+		items = new Inventory();
+		this.setDescription(description);
+		this.setLabel(label);
+		exits = new HashMap();
+		this.npc = npc;
 	}
 	
 	public boolean addExit (String exitLabel, Exit theExit)
@@ -70,6 +79,21 @@ public class Location {
 		return returnMsg.toString();
 	}
 
+	public String getNPCDescription() {
+		String response = "";
+		if(this.npc != null){
+			response = this.npc.getName() + " is here and says "+npc.getConversation();
+			if(this.npc.isHostile()){
+				response += "This "+this.npc.getName()+" is hostile. Do you want to engage or run? " +
+						"Use attack command to attack.";
+			}
+		} else {
+			response = "You are alone here.";
+		}
+
+		return response;
+	}
+
 	public boolean containsExit(String exitLabel) {
 		return exits.containsKey(exitLabel);
 	}
@@ -77,6 +101,10 @@ public class Location {
 	public String toString() {
 		return "**********\n" + this.label + "\n**********\n"
 				+ "Exits found :: " + availableExits() + "\n**********\n"
-				+ this.description + "\n**********\n";
+				+ this.description + "\n**********\n" + this.getNPCDescription()+"\n";
+	}
+
+	public NonPlayerCharacter getNpc(){
+		return npc;
 	}
 }

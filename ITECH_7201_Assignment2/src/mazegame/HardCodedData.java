@@ -4,18 +4,40 @@ import mazegame.boundary.IMazeData;
 import mazegame.entity.*;
 import mazegame.entity.utility.*;
 
+import java.util.ArrayList;
+
 public class HardCodedData implements IMazeData {
     private Location startUp;
     private Location lounge;
     private Location gregsOffice;
     private Location t127;
+    private NonPlayerCharacterCollection npcCollection = new NonPlayerCharacterCollection();
+    private final String blackSmith = "Bob The BlackSmith";
+    private final String lizard = "Lizard";
+    private final String giantPython = "Giant Python";
+    private final String poodleMoth = "Poodle Moth";
+    private final String cyclopsShark = "Cyclops Shark";
+    private final String alchemist = "Magnus";
+    private final String tigerFish = "Tiger Fish";
+    private final String giantLesula = "Giant Lesula";
+    private final String giantTurtle = "Giant Turtle";
+    public static ArrayList<Weapon> weapons = new ArrayList<Weapon>();
+    public static ArrayList<Armour> armours = new ArrayList<Armour>();
+    public static ArrayList<Shield> shields = new ArrayList<Shield>();
+    public static WeaponData weaponData = WeaponData.getInstance();
+    public static ArmourData armourData = ArmourData.getInstance();
+    public static ShieldData shieldData = ShieldData.getInstance();
 
     public HardCodedData()
     {
+        populateNonPlayerCharacter();
         createLocations();
         populateWeightLimitTable();
         populateStrengthTable();
         populateAgilityTable();
+        populateWeaponData();
+        populateArmourData();
+        populateShieldData();
     }
 
     public Location getStartingLocation()
@@ -28,28 +50,32 @@ public class HardCodedData implements IMazeData {
         return "Welcome to the Mount Helanous";
     }
 
-    private void createLocations ()
-    {
+    public NonPlayerCharacterCollection getNpcCollection() {
+        return this.npcCollection;
+    }
+
+    private void createLocations () {
         startUp = new Location ("A safe haven, but soon to be snatched by dangerous wild creatures",
                 "Start Position");
-        Location shop1 = new Location ("a shop selling and buying basic weapons and armour", "Shop 1");
+        Location shop1 = new Blacksmith ("a shop selling and buying basic weapons and armour", "Shop 1",
+                this.npcCollection.get(this.blackSmith), weaponData, armourData, shieldData);
         Location lizardBurrow = new Location ("a poisonous lizard burrows here. better avoid the lizard.",
-                "Lizard Tail");
+                "Lizard Tail", this.npcCollection.get(this.lizard));
         Location pythonTree = new Location ("a open space with a tall tree. avoid the big python living " +
-                "in that tree.", "Python's Nest");
+                "in that tree.", "Python's Nest", this.npcCollection.get(this.giantPython));
         Location poodleMothHole = new Location("A nest for poodle Moth. You would not want to cuddle" +
-                " it up. ", "Poodle Moth Hole");
+                " it up. ", "Poodle Moth Hole", this.npcCollection.get(this.poodleMoth));
         Location cyclopsDen = new Location("A den where a cyclops shark burrows. Though one eyed, " +
-                "this monster has 270 view range. Try to avoid it.", "Cyclops Den");
+                "this monster has 270 view range. Try to avoid it.", "Cyclops Den", this.npcCollection.get(this.cyclopsShark));
         Location shop2 = new Location("You can see a shop that sells elixir and advanced weapons and armours",
-                "Shop 2");
+                "Shop 2", this.npcCollection.get(this.alchemist));
         Location tigerFishPuddle = new Location("A large puddle where you would not want to step on. " +
-                "Venomous tigerfish rules the puddle.", "Tiger Fish Puddle");
+                "Venomous tigerfish rules the puddle.", "Tiger Fish Puddle", this.npcCollection.get(this.tigerFish));
         Location lesulaForest = new Location("Home for lesulas. They may attack you. Beware.",
-                "Lesula Forest");
+                "Lesula Forest", this.npcCollection.get(this.giantLesula));
         Location hideout = new Location("A safe place to rest, and heal.", "Hideout");
         Location cliffEdge = new Location("A giant hard shelled turtle is in hiding. View is ecstatic, but " +
-                "you should not hand around here for long", "Mountain Edge");
+                "you should not hang around here for long", "Mountain Edge", this.npcCollection.get(this.giantTurtle));
 
         // Connect Locations
         //exits from start location.
@@ -135,8 +161,7 @@ public class HardCodedData implements IMazeData {
     }
 
 
-    private void populateStrengthTable()
-    {
+    private void populateStrengthTable()    {
         StrengthTable strengthModifiers = StrengthTable.getInstance();
         strengthModifiers.setModifier(1, -5);
         strengthModifiers.setModifier(2, -4);
@@ -186,8 +211,64 @@ public class HardCodedData implements IMazeData {
         strengthModifiers.setModifier(46, 18);
     }
 
-    private void populateAgilityTable()
-    {
+    private void populateWeaponData(){
+//        WeaponData weaponData = WeaponData.getInstance();
+        String[] labels = new String[]{"dagger", "nunchaku", "greatclub", "longspear", "handaxe","throwingaxe",
+                "flaillight", "glaive", "guisarme", "swordshort", "battleaxe", "halberd", "ranseur", "warhammer",
+                "longsword", "scimitar", "trident", "flailheavy", "scythe", "rapier", "greataxe", "waraxedwarven",
+                "swordbastard", "greatsword", "falcion", "swordtwobladed"};
+        int[] goldPoints = new int[]{1,2,5,5,6,8,8,8,9,10,10,10,10,12,15,15,15,15,18,20,20,30,35,50,75,100};
+        String[] damages = new String[]{"1d4", "1d6", "1d10", "1d8","1d6", "1d6","1d8", "1d10","2d4","1d6","1d8","1d10",
+                "2d4","1d8","1d8","1d6","1d8","1d10","2d4","1d6","1d12","1d10","1d10","2d6","2d4","2d8"};
+        int[] weights = new int[]{2,2,10,9,5,4,5,15,15,3,7,15,15,8,4,4,5,20,12,3,20,15,10,15,16,15};
+        for(int i = 0; i< labels.length; i++){
+            Weapon weapon = new Weapon(labels[i], goldPoints[i], weights[i], "", damages[i]);
+            weapons.add(weapon);
+            weaponData.setWeapon(labels[i], goldPoints[i], weights[i], "", damages[i]);
+        }
+    }
+
+    public static ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    public ArrayList<Armour> getArmours() {
+        return armours;
+    }
+
+    public ArrayList<Shield> getShields() {
+        return shields;
+    }
+
+    private void populateArmourData(){
+        String[] labels = new String[]{"padded", "leather", "studdedleather", "chainshirt", "hide", "scalemail",
+                "chainmail", "breastplate", "splintmail", "bandedmail", "halfplate", "fullplate"};
+        int[] cost = new int[]{5,10,25,100,15,50,150,200,200,250,600,1500};
+        int[] bonuses = new int[]{1,2,3,4,3,4,5,5,6,6,7,8};
+        int[] weights = new int[]{10,15,20,25,25,30,40,30,45,35,50,50};
+
+        for(int i=0; i < labels.length; i++){
+            Armour armour = new Armour(labels[i], cost[i], weights[i], "", bonuses[i]);
+            armours.add(armour);
+            armourData.setArmour(labels[i], armour);
+        }
+    }
+
+    private void populateShieldData(){
+//        ShieldData shieldData = ShieldData.getInstance();
+        String[] labels = new String[]{"buckler", "shieldsmallwooden", "shieldsmallsteel", "shieldlargewooden",
+                "shieldlargesteel"};
+        int[] costs = new int[]{15,3,9,7,20};
+        int[] bonuses = new int[]{1, 1, 1, 2, 2};
+        int[] weight = new int[]{5,5,6,10,15};
+        for(int i =0; i< costs.length; i++){
+            Shield shield = new Shield(labels[i], costs[i], weight[i], "", bonuses[i]);
+            shields.add(shield);
+            shieldData.setShield(labels[i], shield);
+        }
+    }
+
+    private void populateAgilityTable(){
         AgilityTable agilityModifiers = AgilityTable.getInstance();
         agilityModifiers.setModifier(1, -5);
         agilityModifiers.setModifier(2, -5);
@@ -237,8 +318,7 @@ public class HardCodedData implements IMazeData {
         agilityModifiers.setModifier(46, 15);
     }
 
-    private void populateWeightLimitTable()
-    {
+    private void populateWeightLimitTable(){
         WeightLimit weightModifier = WeightLimit.getInstance();
         weightModifier.setModifier(1, 6);
         weightModifier.setModifier(2, 13);
@@ -286,5 +366,29 @@ public class HardCodedData implements IMazeData {
         weightModifier.setModifier(44, 2500);
         weightModifier.setModifier(45, 2633);
         weightModifier.setModifier(46, 2713);
+    }
+
+    private void populateNonPlayerCharacter(){
+        NonPlayerCharacter cyclopsWhale = new NonPlayerCharacter("Cyclops Shark", 5, 100,
+                5, true,"whrrrrp whrrrrp");
+        NonPlayerCharacter lesulaGiant = new NonPlayerCharacter("Giant Lesula", 10, 150, 5, true, "....  ....");
+        NonPlayerCharacter blackSmithOne = new NonPlayerCharacter("Bob The BlackSmith", false, "Want to Buy items or Sell items?");
+        NonPlayerCharacter alchemist = new NonPlayerCharacter("Magnus", false, "Buy\nSell");
+        NonPlayerCharacter lizard = new NonPlayerCharacter("Lizard", 15, 100, 5, true, ".... ....");
+        NonPlayerCharacter python = new NonPlayerCharacter("Giant Python", 5, 500, 20, true, "hissssss....");
+        NonPlayerCharacter tigerFish = new NonPlayerCharacter("Tiger Fish", 20, 250, 10, true, "roarrrr...");
+        NonPlayerCharacter poodleMoth = new NonPlayerCharacter("Poodle Moth", 15, 200, 10, true, "....");
+        NonPlayerCharacter giantTurtle = new NonPlayerCharacter("Giant Turtle", 5, 3000, 50, true, "zzz...");
+//        NonPlayerCharacterCollection npcCollection = new NonPlayerCharacterCollection();
+        npcCollection.addToCollection(this.cyclopsShark, cyclopsWhale);
+        npcCollection.addToCollection(this.giantLesula, lesulaGiant);
+        npcCollection.put(this.blackSmith, blackSmithOne);
+        npcCollection.put(this.alchemist, alchemist);
+        npcCollection.put(this.lizard, lizard);
+        npcCollection.put(this.giantPython, python);
+        npcCollection.put(this.tigerFish, tigerFish);
+        npcCollection.put(this.poodleMoth, poodleMoth);
+        npcCollection.put(this.giantTurtle, giantTurtle);
+
     }
 }

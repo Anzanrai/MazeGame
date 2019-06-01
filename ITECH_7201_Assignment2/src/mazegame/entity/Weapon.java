@@ -19,4 +19,8 @@ public class Weapon extends Item {
     public void setDamage(String damage) {
         this.damage = damage;
     }
+
+    public String toString(){
+        return String.format("%-25s\t%-10d\t%-10d\t%-10s",this.getLabel(),this.getValue(),this.getWeight(),this.getDamage());
+    }
 }

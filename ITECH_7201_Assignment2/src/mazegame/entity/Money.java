@@ -22,6 +22,10 @@ public class Money {
          return true;
      }
 
+     public int getMoney(){
+         return total;
+     }
+
      public double GetWeight() {
          return (double)total/100;
      }

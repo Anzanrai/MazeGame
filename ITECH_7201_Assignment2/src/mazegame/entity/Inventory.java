@@ -24,6 +24,10 @@ public class Inventory {
         return true;
     }
 
+    public int getGold(){
+        return gold.getMoney();
+    }
+
     public Item removeItem(String itemName) {
         if (itemList.containsKey(itemName))
         {

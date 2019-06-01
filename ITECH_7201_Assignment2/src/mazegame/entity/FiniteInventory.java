@@ -29,4 +29,36 @@ public class FiniteInventory extends Inventory {
 		return false;
 	}
 
+	public String getDescription(){
+		String response = "";
+		for (Item theItem: this.getItemList().values()) {
+			response += theItem.getLabel()+"\t\t"+theItem.getWeight()+"\n";
+//			currentWeight += theItem.getWeight();
+		}
+		response += String.format("Gold: %d", this.getGold());
+		return response;
+	}
+
+	public int getGold(){
+		return super.getGold();
+	}
+
+	public void addMoney(int goldPieces){
+		super.addMoney(goldPieces);
+	}
+
+	public boolean removeMoney(int goldPieces){
+		return super.removeMoney(goldPieces);
+	}
+
+	public Item findItem(String itemLabel)
+	{
+		Item item = super.findItem(itemLabel);
+		return item;
+	}
+
+	public Item removeItem(String itemName) {
+		return super.removeItem(itemName);
+	}
+
 }
